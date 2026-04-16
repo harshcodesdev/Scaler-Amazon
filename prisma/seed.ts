@@ -1,0 +1,735 @@
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+const products = [{
+  title: 'boAt Rockerz 550 Over-Ear Headphone',
+  description:
+    'Immersive 50mm drivers deliver powerful bass and crystal-clear highs. Up to 20 hours of playback with quick charge. Soft cushioned ear cups and adjustable headband for all-day comfort. Bluetooth 5.0 with up to 10m range.',
+  price: 1499,
+  oldPrice: 3990,
+  discountPercentage: 62,
+  imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80',
+  category: 'Electronics',
+  rating: 4.4,
+  stock: 280,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'JBL Tune 230NC TWS Earbuds',
+  description:
+    'Active Noise Cancellation blocks unwanted background noise. JBL Pure Bass Sound for powerful, deep bass. Up to 40 hours total playback (10h + 30h from case). IPX4 water resistant — sweat and splash proof.',
+  price: 4999,
+  oldPrice: 8999,
+  discountPercentage: 44,
+  imageUrl: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80',
+  category: 'Electronics',
+  rating: 4.5,
+  stock: 160,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'boAt Stone 350 Portable Bluetooth Speaker',
+  description:
+    'Rugged IPX7 waterproof speaker with 14W stereo sound. Built-in FM radio and micro-SD support. Up to 12 hours of non-stop music. TWS pairing lets you connect two speakers for surround sound.',
+  price: 999,
+  oldPrice: 2499,
+  discountPercentage: 60,
+  imageUrl: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80',
+  category: 'Electronics',
+  rating: 4.3,
+  stock: 420,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Fire-Boltt Phoenix AMOLED Smartwatch',
+  description:
+    '1.78-inch AMOLED display with 326 PPI. 120+ sports modes, heart rate monitor, SpO2, sleep tracker. IP68 water resistant. 7-day battery life. Smart notifications, call answer, music control.',
+  price: 1999,
+  oldPrice: 7999,
+  discountPercentage: 75,
+  imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80',
+  category: 'Electronics',
+  rating: 4.2,
+  stock: 190,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'boAt Aavante Bar 1550D Soundbar',
+  description:
+    '40W soundbar with 2.1 channel configuration. Multiple connectivity: BT5.0, HDMI ARC, optical, AUX, USB. Remote control and wall-mountable design. Deep bass with integrated subwoofer.',
+  price: 3499,
+  oldPrice: 6999,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600&q=80',
+  category: 'Electronics',
+  rating: 4.4,
+  stock: 95,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Noise ColorFit Pro 4 AMOLED Smartwatch',
+  description:
+    '1.96-inch AMOLED curved display with always-on watch face. 100+ watch faces. Advanced health tracking: heart rate, SpO2, stress, sleep. 10-day battery with fast charging. 5ATM water resistance.',
+  price: 2499,
+  oldPrice: 5999,
+  discountPercentage: 58,
+  imageUrl: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&q=80',
+  category: 'Electronics',
+  rating: 4.3,
+  stock: 220,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Mi Power Bank 3i 20000mAh',
+  description:
+    '20000mAh lithium polymer battery with dual USB output. 18W fast charging via USB-C and micro-USB input. Nine-layer circuit protection against short circuits and overheating. Charges three devices simultaneously.',
+  price: 1399,
+  oldPrice: 2499,
+  discountPercentage: 44,
+  imageUrl: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=600&q=80',
+  category: 'Electronics',
+  rating: 4.5,
+  stock: 310,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'realme Buds T300 TWS Earbuds',
+  description:
+    '40H long battery life (8h per earbud + case). 360-degree spatial audio with 10mm drivers. Active Noise Cancellation up to 30dB. IPX5 water resistant. Google Fast Pair support.',
+  price: 1999,
+  oldPrice: 3999,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1598327103124-e0d626b5f065?w=600&q=80',
+  category: 'Electronics',
+  rating: 4.4,
+  stock: 175,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+
+// ─── Books ──────────────────────────────────────────────────────
+{
+  title: 'Atomic Habits by James Clear',
+  description:
+    'No matter your goals, Atomic Habits offers a proven framework for improving every day. James Clear reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master tiny behaviors that lead to remarkable results.',
+  price: 310,
+  oldPrice: 799,
+  discountPercentage: 61,
+  imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80',
+  category: 'Books',
+  rating: 4.8,
+  stock: 1200,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'The Psychology of Money by Morgan Housel',
+  description:
+    'Timeless lessons on wealth, greed, and happiness. Doing well with money has little to do with how smart you are and a lot to do with how you behave. Required reading for anyone who wants to build financial independence.',
+  price: 199,
+  oldPrice: 499,
+  discountPercentage: 60,
+  imageUrl: 'https://images.unsplash.com/photo-1553729784-e91953dec042?w=600&q=80',
+  category: 'Books',
+  rating: 4.7,
+  stock: 950,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Rich Dad Poor Dad by Robert Kiyosaki',
+  description:
+    'What the rich teach their kids about money that the poor and middle class do not! One of the most influential personal finance books of all time, reshaping how millions think about building wealth.',
+  price: 299,
+  oldPrice: 599,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1618541546315-5e6da1b38f3e?w=600&q=80',
+  category: 'Books',
+  rating: 4.6,
+  stock: 800,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Ikigai: The Japanese Secret by Héctor García',
+  description:
+    'The book that explores the Japanese concept of ikigai — the reason for being — and shows how to achieve a long, happy life. A blend of investigative journalism and inspiring stories from the world\'s longest- living people.',
+  price: 349,
+  oldPrice: 599,
+  discountPercentage: 42,
+  imageUrl: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=80',
+  category: 'Books',
+  rating: 4.5,
+  stock: 650,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Deep Work by Cal Newport',
+  description:
+    'Rules for focused success in a distracted world. Cal Newport explains how to develop the ability to focus without distraction on a cognitively demanding task — and how this skill is becoming increasingly rare and valuable.',
+  price: 299,
+  oldPrice: 699,
+  discountPercentage: 57,
+  imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80',
+  category: 'Books',
+  rating: 4.6,
+  stock: 420,
+  isBestSeller: false,
+  isLimitedTimeDeal: false,
+},
+
+// ─── Home & Kitchen ─────────────────────────────────────────────
+{
+  title: 'Pigeon LED Automatic Pressure Cooker 5L',
+  description:
+    'Premium stainless steel inner pot with 5-layer safety system. 10 presets for rice, dal, soup, vegetables and more. Preserves nutrition with induction heating. 5-year warranty on inner lid.',
+  price: 1899,
+  oldPrice: 3999,
+  discountPercentage: 53,
+  imageUrl: 'https://images.unsplash.com/photo-1585515320310-259814833e62?w=600&q=80',
+  category: 'Home & Kitchen',
+  rating: 4.3,
+  stock: 340,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Prestige Iris 750W Mixer Grinder',
+  description:
+    'Powerful 750W motor with 3 high-performance stainless steel jars. PC-free transparent lid to monitor blending. Chutney, dry grinding, and wet grinding jars included. Sturdy build with anti-slip feet.',
+  price: 2499,
+  oldPrice: 4999,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=600&q=80',
+  category: 'Home & Kitchen',
+  rating: 4.4,
+  stock: 280,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Ninja Foodi 9-in-1 Grill & Air Fryer',
+  description:
+    'All-in-one countertop appliance: air fryer, pressure cooker, grill, dehydrate and more. TenderCrisp technology cooks food quickly under pressure, then gives it a crispy finish. 6.5L capacity, perfect for family meals.',
+  price: 8999,
+  oldPrice: 15999,
+  discountPercentage: 44,
+  imageUrl: 'https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=600&q=80',
+  category: 'Home & Kitchen',
+  rating: 4.6,
+  stock: 75,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Milton Thermosteel Flask 1L',
+  description:
+    'Double-wall vacuum insulation keeps water hot for 24 hours, cold for 24 hours. BPA-free, stainless steel construction. Leak-proof lid with one-hand operation. 5-year brand warranty.',
+  price: 649,
+  oldPrice: 1199,
+  discountPercentage: 46,
+  imageUrl: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&q=80',
+  category: 'Home & Kitchen',
+  rating: 4.5,
+  stock: 500,
+  isBestSeller: false,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Hawkins Futura Hard Anodised Tava 25cm',
+  description:
+    'Hard anodised surface is non-reactive and provides excellent heat distribution. 3x more durable than ordinary non-stick. Metal utensil safe. Perfect for rotis, dosas, and pancakes. Lifetime warranty.',
+  price: 899,
+  oldPrice: 1599,
+  discountPercentage: 44,
+  imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
+  category: 'Home & Kitchen',
+  rating: 4.6,
+  stock: 380,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Wonderchef Nutri-Pot Electric Rice Cooker',
+  description:
+    'Compact 0.8L personal cooker with auto keep warm function. Non-stick inner pot, glass lid, and measuring cup included. Perfect for rice, oats, soup, noodles, and steaming vegetables. 500W power.',
+  price: 799,
+  oldPrice: 1499,
+  discountPercentage: 47,
+  imageUrl: 'https://images.unsplash.com/photo-1585515320310-259814833e62?w=600&q=80',
+  category: 'Home & Kitchen',
+  rating: 4.2,
+  stock: 260,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+
+// ─── Men's Fashion ───────────────────────────────────────────────
+{
+  title: 'Levi\'s Men\'s Slim Fit Dark Wash Jeans',
+  description:
+    'Classic five-pocket styling in a modern slim fit. Made from premium stretch denim for all-day comfort. Machine washable, retains shape after multiple washes. The iconic Levi\'s leather patch on the back.',
+  price: 1899,
+  oldPrice: 3999,
+  discountPercentage: 52,
+  imageUrl: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=600&q=80',
+  category: 'Men\'s Clothing',
+  rating: 4.4,
+  stock: 220,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'U.S. Polo Assn. Men\'s Casual Sneakers',
+  description:
+    'Lightweight and breathable mesh upper with cushioned insole. Durable rubber outsole for superior grip. Low-top design pairs with jeans, chinos, and shorts. Available in white, black, and navy.',
+  price: 1499,
+  oldPrice: 2999,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80',
+  category: 'Men\'s Clothing',
+  rating: 4.3,
+  stock: 180,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Allen Solly Men\'s Regular Fit Formal Shirt',
+  description:
+    'Premium 100% cotton formal shirt with a crisp finish. Regular fit with a spread collar, button-through placket. Machine washable, wrinkle-resistant fabric. Versatile enough for office and smart casual.',
+  price: 1299,
+  oldPrice: 2599,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80',
+  category: 'Men\'s Clothing',
+  rating: 4.5,
+  stock: 310,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Jack & Jones Men\'s Bomber Jacket',
+  description:
+    'Sleek bomber jacket in water-resistant polyester shell. Ribbed cuffs and hem for a snug fit. Full-zip front with standing collar. Two side pockets and one inner pocket. Perfect for layering in winters.',
+  price: 2999,
+  oldPrice: 5999,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80',
+  category: 'Men\'s Clothing',
+  rating: 4.4,
+  stock: 90,
+  isBestSeller: false,
+  isLimitedTimeDeal: false,
+},
+
+// ─── Women\'s Fashion ───────────────────────────────────────────
+{
+  title: 'Saree Affair Women\'s Georgette Saree(Wine)',
+  description:
+    'Elegant wine-colored georgette saree with intricate Zari work on the border. Comes with an unstitched blouse piece matching the saree. Perfect for festivals, weddings, and special occasions.',
+  price: 1999,
+  oldPrice: 4999,
+  discountPercentage: 60,
+  imageUrl: 'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=600&q=80',
+  category: 'Women\'s Clothing',
+  rating: 4.6,
+  stock: 140,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Levi\'s Women\'s 720 High Rise Super Skinny Jeans',
+  description:
+    'High-rise waist with a super stretch fit that sculpts and lifts. Classic 5-pocket styling with a clean finish. Made from innovative Hold Tight fabric that moves with you. Mid Indigo wash.',
+  price: 2299,
+  oldPrice: 4599,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&q=80',
+  category: 'Women\'s Clothing',
+  rating: 4.5,
+  stock: 200,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Roadster Women\'s Relaxed Fit Casual T - Shirt',
+  description:
+    'Soft, breathable cotton t-shirt in a relaxed drop-shoulder fit. Round neck with ribbed trim. Solid colors perfect for everyday wear. Machine washable, pre-shrunk fabric.',
+  price: 499,
+  oldPrice: 999,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600&q=80',
+  category: 'Women\'s Clothing',
+  rating: 4.2,
+  stock: 450,
+  isBestSeller: false,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Zara Women\'s Chiffon Floral Print Top',
+  description:
+    'Lightweight chiffon top with a delicate floral print. V-neck with tie-back detail. Flowy silhouette, perfect for summer. Pairs beautifully with jeans, skirts, or tailored trousers.',
+  price: 1199,
+  oldPrice: 2499,
+  discountPercentage: 52,
+  imageUrl: 'https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600&q=80',
+  category: 'Women\'s Clothing',
+  rating: 4.3,
+  stock: 180,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+
+{
+  title: 'Mamaearth Vitamin C Face Serum with Goddess Glow',
+  description:
+    'Enriched with 10% Vitamin C, Hyaluronic Acid, and Turmeric. Brightens skin, reduces tan, and evens skin tone. Lightweight, non-sticky formula absorbs instantly. Dermatologically tested, safe for all skin types.',
+  price: 399,
+  oldPrice: 799,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80',
+  category: 'Beauty',
+  rating: 4.5,
+  stock: 600,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Lakme Absolute Skin Dew Serum Foundation',
+  description:
+    'Lightweight serum-foundation with a dewy, second-skin finish. Enriched with serums and luminous pigments that blur imperfections and boost natural glow. Buildable coverage, SPF 30 PA++. 25 shade range.',
+  price: 899,
+  oldPrice: 1499,
+  discountPercentage: 40,
+  imageUrl: 'https://images.unsplash.com/photo-1631214503020-f5773193910c?w=600&q=80',
+  category: 'Beauty',
+  rating: 4.4,
+  stock: 380,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'NY Bae Hypnotic Matte Lipstick — Bold Red',
+  description:
+    'Highly pigmented matte lipstick with a single-stroke color payoff. Long-wear formula (8+ hours) that stays put without feathering. Creamy texture glides on smoothly and sets to a velvet matte finish.',
+  price: 349,
+  oldPrice: 699,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&q=80',
+  category: 'Beauty',
+  rating: 4.3,
+  stock: 520,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Biotique Bio Kelp Anti-Hairfall Shampoo 340ml',
+  description:
+    'Fortified with Himalayan Nettle and Biotin\'s Kelp extract.Reduces hair fall by up to 76 % in 4 weeks.Strengthens hair roots and nourishes from within.Free from parabens and sulfates.',
+  price: 245,
+  oldPrice: 490,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&q=80',
+  category: 'Beauty',
+  rating: 4.1,
+  stock: 700,
+  isBestSeller: false,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Nivia Storm Football',
+  description:
+    'Official match ball with seamless construction for consistent flight. Durable TPU outer with softponge lining for better control. Suitable for both grass and concrete surfaces. Size 5.',
+  price: 499,
+  oldPrice: 899,
+  discountPercentage: 44,
+  imageUrl: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80',
+  category: 'Sports',
+  rating: 4.4,
+  stock: 240,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Yonex Mavis 350 Shuttlecock (6 pcs)',
+  description:
+    'Competition-grade shuttlecock with a natural cork base. Synthetic feather replacement skirt for durability. Consistent flight trajectory and accurate spin. Ideal for club-level and competitive play.',
+  price: 649,
+  oldPrice: 1099,
+  discountPercentage: 41,
+  imageUrl: 'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=600&q=80',
+  category: 'Sports',
+  rating: 4.6,
+  stock: 320,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'HRX by Hrithik Roshan Resistance Bands Set (5 Levels)',
+  description:
+    'Set of 5 resistance bands with different tension levels (5kg to 30kg). Includes door anchor, handles, and ankle straps. Perfect for home workouts, stretching, and physical therapy.',
+  price: 599,
+  oldPrice: 1299,
+  discountPercentage: 54,
+  imageUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80',
+  category: 'Sports',
+  rating: 4.5,
+  stock: 280,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Adidas Adilette Comfort Slides',
+  description:
+    'Cloud-like comfort with a contoured footbed and soft EVA midsole. Quick-dry synthetic upper with 3 stripes branding. Lightweight and easy to wear — from poolside to casual outings.',
+  price: 1799,
+  oldPrice: 3499,
+  discountPercentage: 49,
+  imageUrl: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80',
+  category: 'Sports',
+  rating: 4.5,
+  stock: 150,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Pampers Active Baby Soft Skin Diapers (M, 62 Count)',
+  description:
+    'Ultra-absorbent diapers with a middle layer that absorbs 50% more than standard. Air circulation channels keep baby\'s skin dry.Stretchy, refastenable tapes for a comfortable fit.Dermatologically tested.',
+  price: 899,
+  oldPrice: 1399,
+  discountPercentage: 36,
+  imageUrl: 'https://images.unsplash.com/photo-1544126592-807daa2edc17?w=600&q=80',
+  category: 'Baby',
+  rating: 4.5,
+  stock: 450,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Fisher-Price Baby Gym Play Mat',
+  description:
+    'Colorful activity gym with overhead rattles, a mirror, and detachable toys. Soft, cushioned mat provides a comfortable play surface. Machine-washable fabric. Encourages tummy time and motor development.',
+  price: 1999,
+  oldPrice: 3999,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e8?w=600&q=80',
+  category: 'Baby',
+  rating: 4.6,
+  stock: 120,
+  isBestSeller: false,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'LEGO Classic Creative Bricks 11005 Set',
+  description:
+    '1200 building bricks in 33 different colors, including windows, doors, and wheels. Building inspiration booklet with 24 models to create. Encourages open-ended creativity and STEAM learning for ages 4+.',
+  price: 1999,
+  oldPrice: 3299,
+  discountPercentage: 39,
+  imageUrl: 'https://images.unsplash.com/photo-1585366119957-e55694b960cb?w=600&q=80',
+  category: 'Toys & Games',
+  rating: 4.9,
+  stock: 200,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Hot Wheels City Ultimate Garage Playset',
+  description:
+    'Multi-level parking garage with a spiral ramp, launcher, and 10+ feet of track. Includes 5 Hot Wheels vehicles. Compatible with all Hot Wheels cars and track sets. Ages 4 and up.',
+  price: 3499,
+  oldPrice: 5999,
+  discountPercentage: 42,
+  imageUrl: 'https://images.unsplash.com/photo-1558060370-d644479719b8?w=600&q=80',
+  category: 'Toys & Games',
+  rating: 4.7,
+  stock: 85,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+
+{
+  title: 'Amazon Solimo Ergonomic Mesh Office Chair (Black)',
+  description:
+    'Breathable mesh back for airflow, even during long work sessions. Adjustable lumbar support, armrests, headrest, and seat height. 120-degree recline with tilt lock. Supports up to 120kg. 1-year warranty.',
+  price: 4999,
+  oldPrice: 8999,
+  discountPercentage: 44,
+  imageUrl: 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=600&q=80',
+  category: 'Furniture',
+  rating: 4.3,
+  stock: 110,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Wakefit Engineered Wood Wardrobe (2-Door, Walnut)',
+  description:
+    'Spacious 2-door wardrobe with hanging rail, shelves, and a drawer. Made from premium engineered wood with a smooth veneer finish. Adjustable shelf placement. Push-to-open hinges for a clean look.',
+  price: 8999,
+  oldPrice: 15999,
+  discountPercentage: 44,
+  imageUrl: 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=600&q=80',
+  category: 'Furniture',
+  rating: 4.2,
+  stock: 45,
+  isBestSeller: false,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Decorum Solid Sheesham Wood Coffee Table',
+  description:
+    'Hand-crafted from 100% solid Sheesham wood with a natural honey finish. Clean-lined mid-century modern design with tapered legs. 90cm length — perfect for living rooms. Pre-assembled legs for easy setup.',
+  price: 4499,
+  oldPrice: 7999,
+  discountPercentage: 44,
+  imageUrl: 'https://images.unsplash.com/photo-1533090481720-856c0e63e3f9?w=600&q=80',
+  category: 'Furniture',
+  rating: 4.5,
+  stock: 60,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+
+{
+  title: 'AmazonBasics 20L Solo Microwave Oven',
+  description:
+    '5 power levels and a 60-minute timer with an auto-cook menu. Defrost function by time or weight. Easy-to-clean interior with a glass turntable. Mechanical knobs — reliable and simple to operate.',
+  price: 3999,
+  oldPrice: 5999,
+  discountPercentage: 33,
+  imageUrl: 'https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=600&q=80',
+  category: 'Appliances',
+  rating: 4.2,
+  stock: 95,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Havells Viva 1200mm Ceiling Fan (Pearl White)',
+  description:
+    'High-speed motor with 380 RPM for powerful air delivery. Double ball bearing for silent operation. Aerodynamically designed blades for uniform air spread. Premium pearl white finish, rust-proof.',
+  price: 1799,
+  oldPrice: 2999,
+  discountPercentage: 40,
+  imageUrl: 'https://images.unsplash.com/photo-1565810665442-11b1c2b6c5e2?w=600&q=80',
+  category: 'Appliances',
+  rating: 4.5,
+  stock: 200,
+  isBestSeller: true,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Philips HL7707/00 Mixer Grinder (750W, 4 Jars)',
+  description:
+    '750W motor with PC-free blender jar made of unbreakable ABS plastic. 4 jars: main pitcher, wet jar, dry jar, and chutney jar. Shock-proof ABS body, copper motor winding for longer life.',
+  price: 2499,
+  oldPrice: 4599,
+  discountPercentage: 46,
+  imageUrl: 'https://images.unsplash.com/photo-1581783898377-1c85bf937427?w=600&q=80',
+  category: 'Appliances',
+  rating: 4.4,
+  stock: 140,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Tata Sampann Premium Kalash Rice 5kg',
+  description:
+    'Long-grain basmati rice from the foothills of the Himalayas. Extra-long grains (7.5mm+), naturally aged. Aromatic, non-sticky, and fluffy when cooked. Zero artificial polishing, rich in fiber.',
+  price: 425,
+  oldPrice: 599,
+  discountPercentage: 29,
+  imageUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600&q=80',
+  category: 'Grocery',
+  rating: 4.6,
+  stock: 500,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Organic India Tulsi Green Tea (25 Bags)',
+  description:
+    'Blend of premium green tea leaves and Holy Tulsi (basil). Supports immunity, digestion, and mental clarity. 25 individually sealed tea bags for maximum freshness. USDA and FSSAI certified organic.',
+  price: 199,
+  oldPrice: 399,
+  discountPercentage: 50,
+  imageUrl: 'https://images.unsplash.com/photo-1556679343-c7306c1972bc?w=600&q=80',
+  category: 'Grocery',
+  rating: 4.4,
+  stock: 380,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+{
+  title: 'Almonds Premium Californian (500g)',
+  description:
+    'Premium quality Californian almonds, naturally sun-dried. Rich in protein, vitamin E, and healthy fats. No added salt, sugar, or preservatives. Resealable zip-lock packaging to maintain freshness.',
+  price: 599,
+  oldPrice: 899,
+  discountPercentage: 33,
+  imageUrl: 'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=600&q=80',
+  category: 'Grocery',
+  rating: 4.7,
+  stock: 420,
+  isBestSeller: true,
+  isLimitedTimeDeal: false,
+},
+{
+  title: 'Saffola Gold Heart Wise Rice Bran Oil 1L',
+  description:
+    'LOSORB technology absorbs 25% less oil from food compared to ordinary refined oils. Contains Heart Wise that helps manage cholesterol. Light, non-greasy taste perfect for everyday Indian cooking. FSSAI certified.',
+  price: 199,
+  oldPrice: 320,
+  discountPercentage: 38,
+  imageUrl: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&q=80',
+  category: 'Grocery',
+  rating: 4.5,
+  stock: 350,
+  isBestSeller: false,
+  isLimitedTimeDeal: true,
+},
+];
+
+async function main() {
+  console.log('Clearing existing records...');
+  await prisma.orderItem.deleteMany();
+  await prisma.order.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.wishlist.deleteMany();
+
+  console.log(`Seeding ${products.length} real products...`);
+  for (const product of products) {
+    await prisma.product.create({ data: product });
+  }
+
+  console.log('Seeding complete!');
+  console.log(`Total products: ${products.length}`);
+  const byCategory = products.reduce(
+    (acc, p) => {
+      acc[p.category] = (acc[p.category] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+  console.log('By category:', byCategory);
+}
+
+main()
+  .catch((e: unknown) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });// seed update 1776359750
